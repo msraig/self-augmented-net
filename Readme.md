@@ -1,6 +1,6 @@
 # Modeling Surface Appearance from a Single Photograph using Self-augmented Convolutional Neural Networks
 
-The major contributors of this repository include [Xiao Li](http://home.ustc.edu.cn/~pableeto), [Yue Dong](http://yuedong.shading.me), [Pieter Peers](www.cs.wm.edu/~ppeers/) and [Xin Tong](https://www.microsoft.com/en-us/research/people/xtong/).
+The major contributors of this repository include [Xiao Li](http://home.ustc.edu.cn/~pableeto), [Yue Dong](http://yuedong.shading.me), [Pieter Peers](http://www.cs.wm.edu/~ppeers/) and [Xin Tong](https://www.microsoft.com/en-us/research/people/xtong/).
 
 ## Introduction
 
