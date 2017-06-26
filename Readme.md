@@ -9,7 +9,7 @@ This repository provided source code for SIGGRAPH 2017 paper "Modeling Surface A
 The paper is available at http://msraig.info/~sanet/sanet.htm.
 
 ## Citation
-If you find our code helpful for your research, please consider citing:
+If you use our code or models, please cite our paper.:
 
 ```
 @article{Li:2017:MSA, 
