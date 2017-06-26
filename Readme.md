@@ -6,6 +6,8 @@ The major contributors of this repository include [Xiao Li](http://home.ustc.edu
 
 This repository provided source code for SIGGRAPH 2017 paper "Modeling Surface Appearance from a Single Photograph using Self-augmented Convolutional Neural Networks".
 
+The paper is available at http://msraig.info/~sanet/sanet.htm.
+
 ## Citation
 If you find our code helpful for your research, please consider citing:
 
