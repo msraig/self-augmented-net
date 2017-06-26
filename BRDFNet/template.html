@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ResultVisulization</title>
+		<style>
+			table, th, td {
+    			border: 1px solid black;
+     			border-collapse: collapse;
+     			text-align: center;
+     			vertical-align: center;
+     			font-size: 16px;
+			}
+		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.3.0/echarts.min.js"></script>
+	</head>
+
+	<body>
+    	<div id="main" style="width: 1024px;height:768px;">
+    	</div>
+		
+
+		<h1>ResultVisulization - {{experimentTag}}</h1>
+		<script type = "text/javascript">
+            function drawCurve(name, text) {
+                var vals = text.split(' ').map(d => +d);
+                for (var i = 0; i < vals.length; ++i) 
+                    range[i] = i;
+                
+                option.series.push({
+                    name: name,
+                    type: 'line',
+                    data: vals
+                });
+                option.legend.data.push(name);
+                myChart.setOption(option);
+            }		
+			myChart = echarts.init(document.getElementById('main'));
+
+			var range = [];
+
+            option = {
+                title: {
+                    text: 'curve'
+                },
+                tooltip: {
+                    show: true
+                },
+                legend: {
+                    data: []
+                },
+                series: [],
+                xAxis: {
+                    data: range
+                },
+                yAxis: {
+                },
+                dataZoom: [{
+                    type: 'slider',
+                    xAxisIndex: [0]
+                }, {
+                    type: 'inside',
+                    xAxisIndex: [0]
+                }, {
+					type: 'slider',
+					yAxisIndex: [0]
+				}]
+            }
+            {% if trainingCurveData.albedo is defined %}
+            drawCurve("trainCurve_albedo", "{{trainingCurveData.albedo.train}}");
+            drawCurve("testCurve_albedo_full", "{{trainingCurveData.albedo.testFull}}");
+            {% endif %}
+            {% if trainingCurveData.spec is defined %}
+            drawCurve("trainCurve_spec", "{{trainingCurveData.spec.train}}");
+            drawCurve("testCurve_spec_full", "{{trainingCurveData.spec.testFull}}");
+            {% endif %}
+            {% if trainingCurveData.roughness is defined %}
+            drawCurve("trainCurve_roughness", "{{trainingCurveData.roughness.train}}");
+            drawCurve("testCurve_roughness_full", "{{trainingCurveData.roughness.testFull}}");
+            {% endif %}
+            {% if trainingCurveData.total is defined %}
+            drawCurve("trainCurve_total", "{{trainingCurveData.total.train}}");
+            drawCurve("testCurve_total_full", "{{trainingCurveData.total.testFull}}");
+            {% endif %}                                    
+		</script>		
+		<h2>#0: Training Curve</h2>
+			<table>
+				<tr>
+					{% if trainingCurvePath.albedo is defined %}
+					<th>Albedo</th>
+					{% endif %}
+					{% if trainingCurvePath.spec is defined %}
+					<th>Spec</th>
+					{% endif %}
+					{% if trainingCurvePath.roughness is defined %}
+					<th>Roughness</th>
+					{% endif %}
+					{% if trainingCurvePath.total is defined %}
+					<th>Total</th>
+					{% endif %}
+				</tr>
+				<tr>
+					{% if trainingCurvePath.albedo is defined %}
+					<td>
+						<figure>
+							<img src="{{trainingCurvePath.albedo}}" width="{{width}}"/>
+						</figure>
+					</td>
+					{% endif %}
+					{% if trainingCurvePath.spec is defined %}
+					<td>
+						<figure>
+							<img src="{{trainingCurvePath.spec}}" width="{{width}}"/>
+						</figure>
+					</td>
+					{% endif %}
+					{% if trainingCurvePath.roughness is defined %}
+					<td>
+						<figure>
+							<img src="{{trainingCurvePath.roughness}}" width="{{width}}"/>
+						</figure>
+					</td>
+					{% endif %}
+					{% if trainingCurvePath.total is defined %}
+					<td>
+						<figure>
+							<img src="{{trainingCurvePath.total}}" width="{{width}}"/>
+						</figure>
+					</td>
+					{% endif %}										
+				</tr>							
+			</table>
+		<hr>
+
+		<h2>#2: Error Analysis</h2>
+		<h3>#2-1: Spec-Roughness Slice</h3>
+		{% if slice_S_R is defined %}
+		<table>
+			<tr>
+				<th>Sliced Point</th>
+				{% if slice_S_R[0].albedo is defined %}
+				<th>Albedo</th>
+				{% endif %}
+				{% if slice_S_R[0].spec is defined %}
+				<th>Spec</th>
+				{% endif %}
+				{% if slice_S_R[0].roughness is defined %}
+				<th>Roughness</th>
+				{% endif %}
+				{% if slice_S_R[0].total is defined %}
+				<th>Total</th>
+				{% endif %}
+				{% if slice_S_R[0].visual is defined %}
+				<th>Visual</th>
+				{% endif %}
+				{% if slice_S_R[0].ssim is defined %}
+				<th>SSIM</th>
+				{% endif %}										
+			</tr>
+			{% for slice in slice_S_R %}
+			<tr>
+				<th>"{{slice.value}}"</th>
+				{% if slice.albedo is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.albedo}}" width="{{width}}"/>
+					</figure>			
+				</td>
+				{% endif %}
+				{% if slice.spec is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.spec}}" width="{{width}}"/>
+					</figure>			
+				</td>
+				{% endif %}
+				{% if slice.roughness is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.roughness}}" width="{{width}}"/>
+					</figure>			
+				</td>
+				{% endif %}
+				{% if slice.total is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.total}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}
+				{% if slice.visual is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.visual}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}
+				{% if slice.ssim is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.ssim}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}					
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
+
+		<h3>#2-2: Albedo-Spec Slice</h3>
+		{% if slice_A_S is defined %}
+		<table>
+			<tr>
+				<th>Sliced Point</th>
+				{% if slice_A_S[0].albedo is defined %}
+				<th>Albedo</th>
+				{% endif %}
+				{% if slice_A_S[0].spec is defined %}
+				<th>Spec</th>
+				{% endif %}
+				{% if slice_A_S[0].roughness is defined %}
+				<th>Roughness</th>
+				{% endif %}
+				{% if slice_A_S[0].total is defined %}
+				<th>Total</th>
+				{% endif %}
+				{% if slice_A_S[0].visual is defined %}
+				<th>Visual</th>
+				{% endif %}
+				{% if slice_A_S[0].ssim is defined %}
+				<th>SSIM</th>
+				{% endif %}					
+			</tr>
+			{% for slice in slice_A_S %}
+			<tr>
+				<th>"{{slice.value}}"</th>
+				{% if slice.albedo is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.albedo}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if slice.spec is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.spec}}" width="{{width}}"/>
+					</figure>					
+				</td>
+				{% endif %}
+				{% if slice.roughness is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.roughness}}" width="{{width}}"/>
+					</figure>
+				</td>
+				{% endif %}
+				{% if slice.total is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.total}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}	
+				{% if slice.visual is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.visual}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}		
+				{% if slice.ssim is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.ssim}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}																				
+			</tr>
+			{% endfor %}
+		</table>	
+		{% endif %}
+
+		<h3>#2-3: Albedo-Roughness Slice</h3>
+		{% if slice_A_R is defined %}	
+		<table>
+			<tr>
+				<th>Sliced Point</th>
+				{% if slice_A_R[0].albedo is defined %}
+				<th>Albedo</th>
+				{% endif %}
+				{% if slice_A_R[0].spec is defined %}
+				<th>Spec</th>
+				{% endif %}
+				{% if slice_A_R[0].roughness is defined %}
+				<th>Roughness</th>
+				{% endif %}
+				{% if slice_A_R[0].total is defined %}
+				<th>Total</th>
+				{% endif %}
+				{% if slice_A_R[0].visual is defined %}
+				<th>Visual</th>
+				{% endif %}
+				{% if slice_A_R[0].ssim is defined %}
+				<th>SSIM</th>
+				{% endif %}					
+			</tr>
+			{% for slice in slice_A_R %}
+			<tr>
+				<th>"{{slice.value}}"</th>
+				{% if slice.albedo is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.albedo}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if slice.spec is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.spec}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if slice.roughness is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.roughness}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if slice.total is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.total}}" width="{{width}}"/>
+					</figure>				
+				</td>	
+				{% endif %}		
+				{% if slice.visual is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.visual}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}		
+				{% if slice.ssim is defined %}
+				<td>
+					<figure>
+						<img src="{{slice.ssim}}" width="{{width}}"/>
+					</figure>			
+				</td>	
+				{% endif %}																				
+			</tr>
+			{% endfor %}
+		</table>
+		{% endif %}
+
+		<hr>
+		<h2>#3: Loss Curves</h2>
+		<table>
+			<tr>
+				{% if albedoloss is defined %}
+				<th>avg.albedo loss</th>
+				{% endif %}
+				{% if specloss is defined %}
+				<th>avg.spec loss</th>
+				{% endif %}
+				{% if roughnessloss is defined %}
+				<th>avg.roughness loss</th>
+				{% endif %}
+				{% if totalloss is defined %}
+				<th>avg.total loss</th>
+				{% endif %}
+				{% if visualloss is defined %}
+				<th>avg.visual loss</th>
+				{% endif %}				
+				{% if ssimloss is defined %}
+				<th>avg.ssim loss</th>
+				{% endif %}								
+			</tr>
+			<tr>
+				{% if albedoloss is defined %}
+				<th>{{albedoloss}}</th>
+				{% endif %}
+				{% if specloss is defined %}
+				<th>{{specloss}}</th>
+				{% endif %}
+				{% if roughnessloss is defined %}
+				<th>{{roughnessloss}}</th>
+				{% endif %}
+				{% if totalloss is defined %}
+				<th>{{totalloss}}</th>
+				{% endif %}
+				{% if visualloss is defined %}
+				<th>{{visualloss}}</th>
+				{% endif %}		
+				{% if ssimloss is defined %}
+				<th>{{ssimloss}}}</th>
+				{% endif %}									
+			</tr>			
+		</table>
+		<table>
+			<tr>
+				<th>Axis</th>
+				{% if ((axisAlbedo is defined) and (axisAlbedo.albedo is defined)) or ((axisSpec is defined) and (axisSpec.albedo is defined)) or ((axisRoughness is defined) and (axisRoughness.albedo is defined)) %}
+				<th>AlbedoLoss</th>
+				{% endif %}
+				{% if ((axisAlbedo is defined) and (axisAlbedo.spec is defined)) or ((axisSpec is defined) and (axisSpec.spec is defined)) or ((axisRoughness is defined) and (axisRoughness.spec is defined)) %}
+				<th>SpecLoss</th>
+				{% endif %}
+				{% if ((axisAlbedo is defined) and (axisAlbedo.roughness is defined)) or ((axisSpec is defined) and (axisSpec.roughness is defined)) or ((axisRoughness is defined) and (axisRoughness.roughness is defined)) %}
+				<th>RoughnessLoss</th>
+				{% endif %}
+				{% if ((axisAlbedo is defined) and (axisAlbedo.total is defined)) or ((axisSpec is defined) and (axisSpec.total is defined)) or ((axisRoughness is defined) and (axisRoughness.total is defined)) %}
+				<th>TotalLoss</th>
+				{% endif %}
+				{% if ((axisAlbedo is defined) and (axisAlbedo.visual is defined)) or ((axisSpec is defined) and (axisSpec.visual is defined)) or ((axisRoughness is defined) and (axisRoughness.visual is defined)) %}
+				<th>VisualLoss</th>
+				{% endif %}			
+				{% if ((axisAlbedo is defined) and (axisAlbedo.ssim is defined)) or ((axisSpec is defined) and (axisSpec.ssim is defined)) or ((axisRoughness is defined) and (axisRoughness.ssim is defined)) %}
+				<th>SSIMLoss</th>
+				{% endif %}							
+			</tr>
+			{% if (axisAlbedo is defined) %}
+			<tr>
+				<th>AlbedoAxis</th>
+				{% if (axisAlbedo.albedo is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.albedo}}" width="{{width}}"/>
+					</figure>		
+				</td>
+				{% endif %}
+				{% if (axisAlbedo.spec is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.spec}}" width="{{width}}"/>
+					</figure>			
+				</td>
+				{% endif %}
+				{% if (axisAlbedo.roughness is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.roughness}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisAlbedo.total is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.total}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}			
+				{% if (axisAlbedo.visual is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.visual}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}			
+				{% if (axisAlbedo.ssim is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisAlbedo.ssim}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}																				
+			</tr>
+			{% endif %}
+			{% if (axisSpec is defined) %}		
+			<tr>
+				<th>SpecAxis</th>
+				{% if (axisSpec.albedo is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.albedo}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisSpec.spec is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.spec}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisSpec.roughness is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.roughness}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisSpec.total is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.total}}" width="{{width}}"/>
+					</figure>					
+				</td>
+				{% endif %}		
+				{% if (axisSpec.visual is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.visual}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}		
+				{% if (axisSpec.ssim is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisSpec.ssim}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}																						
+			</tr>
+			{% endif %}
+			{% if (axisRoughness is defined) %}
+			<tr>
+				<th>RoughnessAxis</th>
+				{% if (axisRoughness.albedo is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.albedo}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisRoughness.spec is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.spec}}" width="{{width}}"/>
+					</figure>					
+				</td>
+				{% endif %}
+				{% if (axisRoughness.roughness is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.roughness}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}
+				{% if (axisRoughness.total is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.total}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}		
+				{% if (axisRoughness.visual is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.visual}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}		
+				{% if (axisRoughness.ssim is defined) %}
+				<td>
+					<figure>
+						<img src="{{axisRoughness.ssim}}" width="{{width}}"/>
+					</figure>				
+				</td>
+				{% endif %}																						
+			</tr>
+			{% endif %}												
+		</table>
+		<hr>
+		<h2>#1: Rendering Compare</h2>
+		<table>
+			{% for renderResultRow in renderResult %}
+			<tr>
+				{% for renderResult in renderResultRow %}
+				<td>
+					<figure>
+						<img src="{{renderResult.predictedImgFile}}" width="128" height="128"/>
+						<figcaption>"Predict:{{renderResult.predictedBRDF}}"</figcaption>
+					</figure>
+					<figure>
+						<img src="{{renderResult.gtImgFile}}" width="128" height="128"/>
+						<figcaption>"Truth:{{renderResult.gtBRDF}}"</figcaption>
+					</figure>												
+				</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>
+		<hr>		
+	</body>
+</html> 

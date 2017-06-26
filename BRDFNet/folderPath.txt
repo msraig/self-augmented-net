@@ -1,0 +1,2 @@
+../TrainedResult
+/home/v-xil/v-xil/envmap_pfm_cube

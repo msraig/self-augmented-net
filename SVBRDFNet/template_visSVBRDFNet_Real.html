@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DatasetVisualization</title>
+		<script>
+		
+			function SearchFilter() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("search");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("visualTable");
+			  tr = table.getElementsByTagName("tr");
+			  
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1 && td.innerHTML.toUpperCase().indexOf(filter) < 1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				} 
+			  }
+			}
+		</script>		
+		<style>
+			table, th, td {
+    			border: 1px solid black;
+     			border-collapse: collapse;
+     			text-align: center;
+     			vertical-align: center;
+     			font-size: 16px;
+			}
+			#albedo, #specball, #normal, #relighting {
+				width: 400px;
+    			white-space: nowrap;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Network - {{networkTag}}</h1>
+		<h2>Summary:</h2>
+
+		<input type="text" id="search" onkeyup="SearchFilter()" placeholder="type here">
+		<table id="visualTable">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Input Image</th>
+					<th>Albedo Fit</th>				
+					<th>Specball Fit</th>
+					<th>Normal Fit</th>
+				</tr>
+			</thead>
+			{% for data in dataList %}
+			<tr>
+				<td>{{data.ID}}</td>	
+				<td>
+					<div id="input">
+						<img src="{{data.img}}" width="192"/>
+					</div>			
+				</td>		
+				<td>
+					<div id="albedo">
+						<img src="{{data.albedo_fit}}" width="192"/>
+					</div>			
+				</td>	
+				<td>
+					<div id="specball">
+						<img src="{{data.specball_fit}}" width="192"/>
+					</div>	
+				</td>		
+				<td>
+					<div id="normal">
+						<img src="{{data.normal_fit}}" width="192"/>
+					</div>	
+				</td>					
+				<td>
+					<div id="relighting">
+						<img src="{{data.relighting_fit}}" width="192"/>
+					</div>
+				</td>																		
+			</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html> 

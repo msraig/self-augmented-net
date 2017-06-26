@@ -1,0 +1,9 @@
+net: "#netpath#"
+base_lr: #base_lr#
+lr_policy: "inv"
+gamma: #gamma#
+power: 1.0
+momentum: #momentum#
+weight_decay:#weightDecay#
+solver_mode: GPU
+snapshot_prefix: "#snapshotpath#"
