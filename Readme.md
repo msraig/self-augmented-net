@@ -53,11 +53,11 @@ After download dataset (contains SVBRDF-Net maps and lighting), please open ./BR
 
 To generate training and test data for BRDF-Net, running:
 
-python ./BRDFNet/RenderBRDFNetData.py $GPUID$ $BRDF_NET_DATA_FOLDER$
+    python ./BRDFNet/RenderBRDFNetData.py $GPUID$ $BRDF_NET_DATA_FOLDER$
 
 To generate training and test data for SVBRDF-Net, running:
 
-python ./SVBRDFNet/RenderSVBRDFDataset.py $SVBRDF_NET_DATA_FOLDER$ $CATEGORY_TAG$ $GPUID$ $RENDERTYPE$ -1 -1 $RENDERTEST$
+    python ./SVBRDFNet/RenderSVBRDFDataset.py $SVBRDF_NET_DATA_FOLDER$ $CATEGORY_TAG$ $GPUID$ $RENDERTYPE$ -1 -1 $RENDERTEST$
 
 Meaning of paramaters:
 
