@@ -88,7 +88,7 @@ with open('folderPath.txt', 'r') as f:
 thetaList = np.linspace(10.0 * math.pi / 180.0, 80.0 * math.pi / 180.0, 15)
 phiList = np.linspace(30.0 * math.pi / 180.0, 330.0 * math.pi / 180.0, 15)
 
-with open(params['envMapFolder'] + r'\light.txt', 'r') as f:
+with open(params['envMapFolder'] + r'/light.txt', 'r') as f:
      lightID = map(int, f.read().strip().split('\n'))
      lightID = list(np.array(lightID) - 1)
 
