@@ -47,11 +47,6 @@ After installing all the prerequisites listed above, download (or git clone) the
 ### Preparing data
 We also provide both training and test datasets to quickly test or reproduce SA-BRDF-Net or SA-SVBRDF-Net. The dataset can be downloaded from the project website: http://msraig.info/~sanet/sanet.htm. Because the complete rendered training and test image patches are too large, the dataset needs to be generated from the original SVBRDFs and lighting maps using the provided python scripts.
 
-<<<<<<< HEAD
-After download dataset (contains SVBRDF-Net maps and lighting), please open ./BRDFNet/folderPath.txt (for BRDF-Net) and/or ./SVBRDFNet/folderPath_SVBRDF.txt
-
-To generate training and test data for BRDF-Net, running:
-=======
 To generate from the downloaded data, first edit ./BRDFNet/folderPath.txt (for BRDF-Net) and/or ./BRDFNet/folderPath_SVBRDF.txt (for SVBRDF-Net). Next, to generate the training and test data for BRDF-Net, execute:
 >>>>>>> d578fbbffe1eea8a5beb53851e450fb4eff34f69
 
