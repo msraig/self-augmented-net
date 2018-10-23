@@ -8,6 +8,9 @@ This repository provides a reference implementation for the SIGGRAPH 2017 paper 
 
 More information (including a copy of the paper) can be found at http://msraig.info/~sanet/sanet.htm.
 
+## Update
+10/23/2018: If you are looking for a (improved) Tensorflow version of Self-Augmentation training, you may have a look at our latest Pacific Graphics 2018 project page: https://github.com/msraig/InexactSA.
+
 ## Citation
 If you use our code or models, please cite:
 
